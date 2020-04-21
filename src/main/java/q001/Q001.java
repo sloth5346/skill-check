@@ -7,7 +7,7 @@ package q001;
  * 正しく実行できるように修正してください。
  */
 public class Q001 {
-    void main() {
+    public static void main(String[] args) {
         System.out.println("Hello World!");
     }
 }
