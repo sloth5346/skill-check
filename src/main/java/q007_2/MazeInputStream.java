@@ -61,6 +61,7 @@ public class MazeInputStream extends ByteArrayInputStream {
             result.append(new String(strs)).append(System.lineSeparator());
         }
         result.append(System.lineSeparator());
+        System.out.println(result.toString());
         return result.toString();
     }
 

@@ -24,5 +24,22 @@ XXXXXXXXX
 14
  */
 public class Q007 {
+	public static void main(String[] args) {
+		Searcher searcher = new Searcher(new MazeInputStream());
+		while(true) {
+			searcher.setPassed();
+			searcher.searchNextPoint();
+			// 進める場所がなくなったときにループから抜ける
+			if(searcher.chkSearchFin()) {
+				break;
+			}
+			searcher.move();
+			// ゴールに到達したらループをぬける
+			if(searcher.chkReachGoal()) {
+				break;
+			}
+		}
+		System.out.println(searcher.countMove());
+	}
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: 9時間 00分
