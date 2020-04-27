@@ -22,8 +22,6 @@ public class Searcher {
 	// 迷路データ(ArrayList)のインデックス
 	private static final int COORDINATE_NUM_INDEX = 0;
 	private static final int PASS_CHK_INDEX = 1;
-	private static final int PRE_X_INDEX = 2;
-	private static final int PRE_Y_INDEX = 3;
 	
 	private MazeData mazeData;
 	
@@ -56,23 +54,19 @@ public class Searcher {
 		
 		int[] nexPoint = new int[2];
 		
-		if(//!chkUpGoal(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
-				!chkUpPassed(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
+		if(!chkUpPassed(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
 				(nexPoint = chkUpRoot(this.curPos[X_INDEX], this.curPos[Y_INDEX])) != null) {
 			this.queue.add(getQueueData(this.curPos[X_INDEX], this.curPos[Y_INDEX], nexPoint[X_INDEX], nexPoint[Y_INDEX]));
 		}
-		if(//!chkRightGoal(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
-				!chkRightPassed(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
+		if(!chkRightPassed(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
 				(nexPoint = chkRightRoot(this.curPos[X_INDEX], this.curPos[Y_INDEX])) != null) {
 			this.queue.add(getQueueData(this.curPos[X_INDEX], this.curPos[Y_INDEX], nexPoint[X_INDEX], nexPoint[Y_INDEX]));
 		}
-		if(//!chkDownGoal(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
-				!chkDownPassed(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
+		if(!chkDownPassed(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
 				(nexPoint = chkDownRoot(this.curPos[X_INDEX], this.curPos[Y_INDEX])) != null) {
 			this.queue.add(getQueueData(this.curPos[X_INDEX], this.curPos[Y_INDEX], nexPoint[X_INDEX], nexPoint[Y_INDEX]));
 		}
-		if(//!chkLeftGoal(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
-				!chkLeftPassed(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
+		if(!chkLeftPassed(this.curPos[X_INDEX], this.curPos[Y_INDEX]) &&
 				(nexPoint = chkLeftRoot(this.curPos[X_INDEX], this.curPos[Y_INDEX])) != null) {
 			this.queue.add(getQueueData(this.curPos[X_INDEX], this.curPos[Y_INDEX], nexPoint[X_INDEX], nexPoint[Y_INDEX]));
 		}
@@ -95,11 +89,8 @@ public class Searcher {
 			int[] queueData = this.queue.poll();
 			if(this.mazeData.getArray().get(queueData[Y_NEX_POINT]).get(queueData[X_NEX_POINT]).get(PASS_CHK_INDEX) == NO_PASSED_POINT) {
 				int[] curPosLocal = {queueData[X_CUR_POINT], queueData[Y_CUR_POINT]};
-				//this.curPos[X_INDEX] = xIndex;
-				//this.curPos[Y_INDEX] = yIndex;
 				int[] nexPos = {queueData[X_NEX_POINT], queueData[Y_NEX_POINT]};
-				//nexPos[X_INDEX] = queueData[X_NEX_POINT];
-				//nexPos[Y_INDEX] = queueData[Y_NEX_POINT];
+
 				// 移動前にルート情報を保存
 				this.mazeData.setRouteData(curPosLocal, nexPos);
 				this.curPos[X_INDEX] = queueData[X_NEX_POINT];
@@ -196,22 +187,6 @@ public class Searcher {
 	
 	private boolean chkLeftPassed(int xPoint, int yPoint) {
 		return this.mazeData.getCoordinatePassed(xPoint - 1, yPoint) == PASSED_POINT;
-	}
-	
-	private boolean chkUpGoal(int xPoint, int yPoint) {
-		return this.mazeData.getCoordinateNum(xPoint, yPoint - 1) == 69;
-	}
-	
-	private boolean chkRightGoal(int xPoint, int yPoint) {
-		return this.mazeData.getCoordinateNum(xPoint + 1, yPoint) == 69;
-	}
-	
-	private boolean chkDownGoal(int xPoint, int yPoint) {
-		return this.mazeData.getCoordinateNum(xPoint, yPoint + 1) == 69;
-	}
-	
-	private boolean chkLeftGoal(int xPoint, int yPoint) {
-		return this.mazeData.getCoordinateNum(xPoint - 1, yPoint) == 69;
 	}
 	
 	private int[] chkUpRoot(int xPoint, int yPoint) {
