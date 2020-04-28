@@ -1,5 +1,10 @@
 package q009;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.util.Iterator;
+
 /**
  * Q009 重い処理を別スレッドで実行
  *
@@ -22,5 +27,60 @@ package q009;
 12345: 3,5,823
  */
 public class Q009 {
+	
+	public static void main(String[] args) {
+		while(true) {
+			System.out.print("入力) ");
+			
+			String str;
+			do {
+				str = readLine();
+			} while(str == null);
+			if(str.equals("")) {
+				disResult();
+			} else {
+				MultiThread mt = new MultiThread(new BigInteger(str));
+				mt.start();
+			}	
+		}
+	}
+	
+	private static void disResult() {
+		for(Iterator<BigInteger> i = MultiThread.primeFactorManegeMap.keySet().iterator(); i.hasNext();) {
+			BigInteger key = i.next();
+			System.out.print(key + ": ");
+			// 計算が終了し、List内に結果が入っている場合
+			if(MultiThread.primeFactorManegeMap.get(key) != null) {
+				// 素数を「2, 3, 5...」のように表示するための処理
+				for(int j = 0; j < MultiThread.primeFactorManegeMap.get(key).size() ;j++) {
+					System.out.print(MultiThread.primeFactorManegeMap.get(key).get(j));
+					if(j < MultiThread.primeFactorManegeMap.get(key).size() - 1) {
+						System.out.print(", ");
+					}
+				}
+				System.out.println();
+				// 取り出した要素を削除
+				i.remove();
+			} else {
+				System.out.println("実行中");
+			}		
+		}
+	}
+	
+	/**
+	 * 標準入力読み取り
+	 * @return 1行テキスト(String)
+	 */
+	 private static String readLine() {
+			String inputString = "";
+			try {
+			    inputString = new BufferedReader(new InputStreamReader(System.in)).readLine();
+			}
+			catch (Exception e) {
+			    e.printStackTrace();
+			}
+			return inputString;
+	 }
+	
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: 4時間 00分
